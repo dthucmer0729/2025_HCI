@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Học Tập</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1A1A2E;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 400px;
+            height: 80vh;
+            overflow-y: auto;
+            display: none;
+        }
+        .login-container {
+            display: block; /* Hiển thị khi khởi động */
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input[type="text"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .color-picker {
+            display: flex;
+            justify-content: space-around; /* Căn giữa các ô màu */
+            margin: 10px 0;
+        }
+        .color-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%; /* Làm cho ô thành hình tròn */
+            cursor: pointer;
+            transition: border 0.3s;
+        }
+        .color-box:hover {
+            border: 2px solid #E94560; /* Viền khi hover */
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #0F3460;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0d2e50;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container login-container">
+        <h1>ĐĂNG NHẬP</h1>
+        <form id="loginForm">
+            <input type="text" placeholder="Tên Đăng Nhập / Email" required />
+            <input type="password" placeholder="Mật Khẩu" required />
+            <div class="color-picker">
+                <div class="color-box" style="background-color: #f0b9b9;" onclick="changeBackgroundColor('#f0b9b9')"></div>
+                <div class="color-box" style="background-color: #232b2e;" onclick="changeBackgroundColor('#232b2e')"></div>
+                <div class="color-box" style="background-color: #000000;" onclick="changeBackgroundColor('#000000')"></div>
+                <div class="color-box" style="background-color: #5a56cd;" onclick="changeBackgroundColor('#5a56cd')"></div>
+                <div class="color-box" style="background-color: #00e1ff;" onclick="changeBackgroundColor('#00e1ff')"></div>
+            </div>
+            <button type="submit">GỬI</button>
+        </form>
+        <div class="register-forget">
+            <a href="#" style="color: #E94560;">Đăng Ký</a> | <a href="#" style="color: #E94560;">Quên Mật Khẩu</a>
+        </div>
+    </div>
+
+    <div class="container dashboard">
+        <h1>Dashboard Học Tập</h1>
+        <div class="sidebar">
+            <h2>Chọn Ngôn Ngữ</h2>
+            <select id="languageFilter">
+                <option value="all">Tất cả ngôn ngữ</option>
+                <option value="C">C</option>
+                <option value="Python">Python</option>
+                <option value="Java">Java</option>
+            </select>
+        </div>
+        <div id="exercises"></div>
+        <div id="noExercisesMessage" class="no-exercises" style="display: none;">Không có bài tập nào cho ngôn ngữ này.</div>
+        <button onclick="logout()">Đăng Xuất</button>
+        <button onclick="showRankings()">Xem Bảng Xếp Hạng</button>
+        <button onclick="showFeedback()">Để Lại Phản Hồi</button>
+    </div>
+
+    <div class="container coding-environment">
+        <h1 id="exerciseTitle"></h1>
+        <textarea id="codeEditor" rows="10" style="width: 100%;"></textarea>
+        <h2>Test Cases Đã Định Nghĩa:</h2>
+        <div id="predefinedTestCases"></div>
+        <h2>Tạo Test Case Mới:</h2>
+        <input type="text" id="inputTestCase" placeholder="Nhập dữ liệu đầu vào" />
+        <button onclick="runCustomTestCase()">Chạy Test Case</button>
+        <button onclick="runCode()">Chạy Mã</button>
+        <button onclick="clearCode()">Xóa Mã</button>
+        <button onclick="submitCode()">Nộp Mã</button>
+        <button class="try-again-button" onclick="tryAgain()">Thử Lại</button>
+        <button class="back-button" onclick="goBack()">Quay Lại</button>
+        <div id="result" class="result" style="display: none;"></div>
+        <div id="testCaseResults" class="result" style="display: none;"></div>
+        <div id="score" class="score" style="display: none;"></div>
+    </div>
+
+    <div class="container rankings">
+        <h1>Bảng Xếp Hạng</h1>
+        <div id="rankingList"></div>
+        <button class="back-button" onclick="goBackFromRankings()">Quay Lại</button>
+    </div>
+
+    <div class="container feedback">
+        <h1>Phản Hồi</h1>
+        <textarea id="feedbackInput" rows="5" placeholder="Nhập phản hồi của bạn"></textarea>
+        <button onclick="submitFeedback()">Gửi Phản Hồi</button>
+        <button class="back-button" onclick="goBackFromFeedback()">Quay Lại</button>
+    </div>
+
+    <script>
+        let studentScore = 0; // Giả lập điểm số sinh viên
+        const rankingsData = [
+            { name: "Sinh Viên 1", score: 85 },
+            { name: "Sinh Viên 2", score: 70 },
+            { name: "Sinh Viên 3", score: 90 }
+        ];
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.querySelector('.login-container').style.display = 'none';
+            document.querySelector('.dashboard').style.display = 'block';
+            loadExercises('all');
+        });
+
+        const exercises = [
+            { title: "Bài Tập 1", description: "Mô tả ngắn gọn bài tập 1.", difficulty: "Dễ", timeLimit: "30 phút", points: 30, language: "C", testCases: [{ input: "1", output: "2" }, { input: "2", output: "4" }] },
+            { title: "Bài Tập 2", description: "Mô tả ngắn gọn bài tập 2.", difficulty: "Khó", timeLimit: "60 phút", points: 35, language: "Python", testCases: [{ input: "3", output: "6" }, { input: "4", output: "8" }] },
+            { title: "Bài Tập 3", description: "Mô tả ngắn gọn bài tập 3.", difficulty: "Trung Bình", timeLimit: "45 phút", points: 35, language: "Java", testCases: [{ input: "5", output: "10" }, { input: "0", output: "0" }] }
+        ];
+
+        const loadExercises = (filter) => {
+            const exerciseContainer = document.getElementById('exercises');
+            const noExercisesMessage = document.getElementById('noExercisesMessage');
+            exerciseContainer.innerHTML = '';
+            noExercisesMessage.style.display = 'none';
+
+            const filteredExercises = exercises.filter(exercise => filter === 'all' || exercise.language === filter);
+            if (filteredExercises.length === 0) {
+                noExercisesMessage.style.display = 'block';
+            } else {
+                filteredExercises.forEach(exercise => {
+                    const div = document.createElement('div');
+                    div.className = 'exercise-card';
+                    div.innerHTML = `
+                        <h3>${exercise.title} (${exercise.difficulty})</h3>
+                        <p>${exercise.description}</p>
+                        <p>Thời gian: ${exercise.timeLimit}</p>
+                        <p>Điểm: ${exercise.points}</p>
+                        <button onclick="selectExercise('${exercise.title}')">Chọn Bài Tập</button>
+                    `;
+                    exerciseContainer.appendChild(div);
+                });
+            }
+        };
+
+        document.getElementById('languageFilter').addEventListener('change', function() {
+            loadExercises(this.value);
+        });
+
+        function selectExercise(title) {
+            const selectedExercise = exercises.find(ex => ex.title === title);
+            document.getElementById('predefinedTestCases').innerHTML = '';
+            selectedExercise.testCases.forEach(testCase => {
+                const div = document.createElement('div');
+                div.className = 'test-case';
+                div.innerHTML = `Input: ${testCase.input} | Expected Output: ${testCase.output}`;
+                document.getElementById('predefinedTestCases').appendChild(div);
+            });
+
+            document.getElementById('exerciseTitle').innerText = `Bài Tập: ${title}`;
+            document.querySelector('.dashboard').style.display = 'none';
+            document.querySelector('.coding-environment').style.display = 'block';
+        }
+
+        function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            const selectedExercise = exercises.find(ex => ex.title === document.getElementById('exerciseTitle').innerText.replace("Bài Tập: ", ""));
+            const testCases = selectedExercise.testCases;
+
+            let passedCount = 0;
+            const actualOutputs = [];
+            const errorOutputs = [];
+
+            testCases.forEach((testCase) => {
+                const actualOutput = simulateCodeExecution(code, testCase.input);
+                actualOutputs.push(actualOutput);
+                if (actualOutput === testCase.output) {
+                    passedCount++;
+                } else if (actualOutput === "Compilation Error") {
+                    errorOutputs.push(`Test Case input: ${testCase.input} gặp lỗi biên dịch.`);
+                }
+            });
+
+            showTestCaseResults(testCases, actualOutputs, errorOutputs);
+            showScore(passedCount, testCases.length);
+        }
+
+        function simulateCodeExecution(code, input) {
+            // Giả lập việc chạy mã.
+            if (code.includes("error")) {
+                return "Compilation Error"; // Mô phỏng lỗi biên dịch nếu mã chứa từ "error"
+            }
+            return String(Number(input) * 2); // Giả định rằng mã nhân đôi đầu vào
+        }
+
+        function showTestCaseResults(testCases, actualOutputs, errorOutputs) {
+            const resultsContainer = document.getElementById('testCaseResults');
+            resultsContainer.innerHTML = '';
+            resultsContainer.style.display = 'block';
+
+            testCases.forEach((testCase, index) => {
+                const status = actualOutputs[index] === testCase.output ? 'Passed' : 'Failed';
+                const statusClass = status === 'Passed' ? 'status-success' : 'Failed' === status ? 'status-failed' : 'status-error';
+                resultsContainer.innerHTML += `
+                    <div class="result">
+                        <h2>Test Case ${index + 1}: <span class="${statusClass}">${status}</span></h2>
+                        <p>Input: ${testCase.input}</p>
+                        <p>Expected Output: ${testCase.output}</p>
+                        <p>Actual Output: ${actualOutputs[index]}</p>
+                    </div>
+                `;
+            });
+
+            errorOutputs.forEach(error => {
+                resultsContainer.innerHTML += `<div class="result"><span class="status-error">${error}</span></div>`;
+            });
+        }
+
+        function showScore(passedCount, total) {
+            const scoreContainer = document.getElementById('score');
+            scoreContainer.innerHTML = `Bạn đã vượt qua ${passedCount} / ${total} test case.`;
+            scoreContainer.style.display = 'block';
+        }
+
+        function clearCode() {
+            document.getElementById('codeEditor').value = '';
+            document.getElementById('testCaseResults').style.display = 'none';
+            document.getElementById('score').style.display = 'none';
+        }
+
+        function submitCode() {
+            alert('Mã đã được nộp!');
+        }
+
+        function logout() {
+            document.querySelector('.dashboard').style.display = 'none';
+            document.querySelector('.login-container').style.display = 'block';
+        }
+
+        function goBack() {
+            document.querySelector('.coding-environment').style.display = 'none';
+            document.querySelector('.dashboard').style.display = 'block';
+        }
+
+        function tryAgain() {
+            clearCode();
+            document.querySelector('.coding-environment').style.display = 'block';
+        }
+
+        function runCustomTestCase() {
+            const input = document.getElementById('inputTestCase').value;
+            const output = "Kết quả từ test case"; // Giả định; thực tế cần xử lý đầu vào
+
+            const resultsContainer = document.getElementById('testCaseResults');
+            resultsContainer.innerHTML = `
+                <div class="result">
+                    <h2>Test Case Tùy Chọn:</h2>
+                    <p>Input: ${input}</p>
+                    <p>Actual Output: ${output}</p>
+                    <p>Expected Output: (Chưa xác định)</p>
+                </div>
+            `;
+            resultsContainer.style.display = 'block';
+        }
+
+        function showRankings() {
+            const rankingList = document.getElementById('rankingList');
+            rankingList.innerHTML = '';
+
+            rankingsData.sort((a, b) => b.score - a.score);
+
+            rankingsData.forEach(student => {
+                rankingList.innerHTML += `<p>${student.name}: ${student.score}</p>`;
+            });
+            document.querySelector('.dashboard').style.display = 'none';
+            document.querySelector('.rankings').style.display = 'block';
+}
+
+        function goBackFromRankings() {
+            document.querySelector('.rankings').style.display = 'none';
+            document.querySelector('.dashboard').style.display = 'block';
+        }
+
+        function showFeedback() {
+            document.querySelector('.dashboard').style.display = 'none';
+            document.querySelector('.feedback').style.display = 'block';
+        }
+
+        function goBackFromFeedback() {
+            document.querySelector('.feedback').style.display = 'none';
+            document.querySelector('.dashboard').style.display = 'block';
+        }
+
+        function submitFeedback() {
+            const feedback = document.getElementById('feedbackInput').value;
+            alert(`Phản hồi của bạn đã được gửi: ${feedback}`);
+            document.getElementById('feedbackInput').value = '';
+        }
+
+        function changeBackgroundColor(color) {
+            document.querySelector('.login-container').style.backgroundColor = color;
+        }
+    </script>
+
+</body>
+</html>
