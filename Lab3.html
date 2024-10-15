@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài liệu học tập</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .topic {
+            background: #ffffff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .topic:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .topic-description {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #35424a;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #4a5d69;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            display: flex;
+            width: 100%;
+            height: 95%;
+            max-width: 1400px;
+            max-height: 900px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 300px;
+            padding: 10px;
+            border-right: 1px solid #ddd;
+            background-color: #f9f9f9;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .sidebar h3 {
+            margin: 0 0 10px;
+        }
+
+        .sidebar .button {
+            width: 80%;
+            margin: 5px 0;
+            text-align: left;
+        }
+
+        .content {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #35424a;
+            color: #ffffff;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tài liệu học tập cho sinh viên</h1>
+        <p>Tham khảo các chủ đề học tập dưới đây.</p>
+    </header>
+
+    <div id="topic-list">
+        <div class="topic">
+            <strong>1. HTML</strong>
+            <p class="topic-description">Tìm hiểu về cấu trúc và cách sử dụng HTML để xây dựng trang web.</p>
+            <a href="#" class="button" onclick="showContent('html')">Xem bài học</a>
+        </div>
+        <div class="topic">
+            <strong>2. CSS</strong>
+            <p class="topic-description">Khám phá cách tạo kiểu và định dạng cho trang web với CSS.</p>
+            <a href="#" class="button" onclick="showContent('css')">Xem bài học</a>
+        </div>
+        <div class="topic">
+            <strong>3. JavaScript</strong>
+            <p class="topic-description">Học cách sử dụng JavaScript để tạo ra tính năng tương tác cho trang web.</p>
+            <a href="#" class="button" onclick="showContent('javascript')">Xem bài học</a>
+        </div>
+        <div class="topic">
+            <strong>4. Python</strong>
+            <p class="topic-description">Khám phá ngôn ngữ lập trình Python và các ứng dụng của nó.</p>
+            <a href="#" class="button" onclick="showContent('python')">Xem bài học</a>
+        </div>
+        <div class="topic">
+            <strong>5. Java</strong>
+            <p class="topic-description">Tìm hiểu về lập trình hướng đối tượng với Java.</p>
+            <a href="#" class="button" onclick="showContent('java')">Xem bài học</a>
+        </div>
+        <div class="topic">
+            <strong>6. Java Spring Framework</strong>
+            <p class="topic-description">Khám phá framework Java Spring để phát triển ứng dụng web.</p>
+            <a href="#" class="button" onclick="showContent('javaSpring')">Xem bài học</a>
+        </div>
+    </div>
+
+    <div id="lesson-modal" class="modal">
+        <div class="modal-content">
+            <div class="sidebar" id="lesson-sidebar">
+                <h3>Các bài học</h3>
+            </div>
+            <div class="content">
+                <span onclick="hideContent()" style="cursor:pointer; float:right; font-size: 24px;">&times;</span>
+                <h2 id="lesson-title"></h2>
+                <h3>Bài giảng</h3>
+                <p id="lesson-lecture"></p>
+                <h3>Bài tập</h3>
+                <ul id="lesson-exercises"></ul>
+                <h3>Tài liệu tham khảo</h3>
+                <div id="lesson-references"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Tài liệu học tập</p>
+    </footer>
+
+    <script>
+        const lessons = {
+            html: {
+                title: "HTML",
+                lecture: "Giới thiệu về HTML, cấu trúc tài liệu HTML, thẻ cơ bản.",
+                exercises: [
+                    "Tạo một trang web đơn giản với tiêu đề, đoạn văn và hình ảnh.",
+                    "Thêm danh sách và bảng vào trang web."
+                ],
+                references: [
+                    "<a href='https://developer.mozilla.org/en-US/docs/Web/HTML'>MDN Web Docs: HTML</a>",
+                    "<a href='https://www.w3schools.com/html/'>W3Schools: HTML Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Cấu trúc HTML", key: "html-structure" },
+                    { title: "Thẻ HTML cơ bản", key: "html-tags" },
+                ]
+            },
+            css: {
+                title: "CSS",
+                lecture: "Giới thiệu về CSS, cách áp dụng CSS vào HTML, thuộc tính và giá trị.",
+                exercises: [
+                    "Thiết kế giao diện cho trang web đã tạo ở phần HTML.",
+                    "Tạo một layout cơ bản với Flexbox hoặc Grid."
+                ],
+                references: [
+                    "<a href='https://developer.mozilla.org/en-US/docs/Web/CSS'>MDN Web Docs: CSS</a>",
+                    "<a href='https://www.w3schools.com/css/'>W3Schools: CSS Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Cách sử dụng CSS", key: "css-usage" },
+                    { title: "CSS Flexbox", key: "css-flexbox" }
+                ]
+            },
+            javascript: {
+                title: "JavaScript",
+                lecture: "Giới thiệu về JavaScript, cú pháp cơ bản, biến, kiểu dữ liệu và hàm.",
+                exercises: [
+                    "Tạo một ứng dụng đơn giản như máy tính hoặc bộ đếm thời gian.",
+                    "Thêm tính năng tương tác vào trang web bằng cách sử dụng DOM."
+                ],
+                references: [
+                    "<a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript'>MDN Web Docs: JavaScript</a>",
+                    "<a href='https://www.w3schools.com/js/'>W3Schools: JavaScript Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Biến và kiểu dữ liệu", key: "js-variables" },
+                    { title: "Hàm trong JavaScript", key: "js-functions" }
+                ]
+            },
+            python: {
+                title: "Python",
+                lecture: "Giới thiệu về Python, cú pháp cơ bản và ứng dụng trong phát triển phần mềm.",
+                exercises: [
+                    "Tạo một ứng dụng console đơn giản bằng Python.",
+                    "Thực hành với các bài tập về dữ liệu và kiểu dữ liệu trong Python."
+                ],
+                references: [
+                    "<a href='https://www.python.org/doc/'>Python Documentation</a>",
+                    "<a href='https://www.w3schools.com/python/'>W3Schools: Python Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Cú pháp cơ bản", key: "python-basics" },
+                    { title: "Thư viện trong Python", key: "python-libraries" }
+                ]
+            },
+            java: {
+                title: "Java",
+                lecture: "Giới thiệu về Java, lập trình hướng đối tượng và cấu trúc chương trình Java.",
+                exercises: [
+                    "Viết một chương trình Hello World đơn giản trong Java.",
+                    "Thực hành với các lớp và đối tượng trong Java."
+                ],
+                references: [
+                    "<a href='https://docs.oracle.com/javase/tutorial/'>Java Tutorials</a>",
+                    "<a href='https://www.w3schools.com/java/'>W3Schools: Java Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Giới thiệu về Java", key: "java-intro" },
+                    { title: "Lập trình hướng đối tượng", key: "java-oop" }
+                ]
+            },
+            javaSpring: {
+                title: "Java Spring",
+                lecture: "Giới thiệu về Spring Framework, lập trình ứng dụng web và RESTful API.",
+                exercises: [
+                    "Xây dựng một ứng dụng web đơn giản sử dụng Spring Boot.",
+                    "Thực hành tạo RESTful API với Spring."
+                ],
+                references: [
+                    "<a href='https://spring.io/docs'>Spring Documentation</a>",
+                    "<a href='https://www.baeldung.com/spring-tutorial'>Baeldung: Spring Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Cài đặt Spring", key: "spring-install" },
+                    { title: "RESTful API với Spring", key: "spring-rest" }
+                ]
+            }
+        };
+
+        function showContent(topic) {
+            const lesson = lessons[topic];
+            document.getElementById("lesson-title").innerText = lesson.title;
+            document.getElementById("lesson-lecture").innerText = lesson.lecture;
+
+            const exercisesList = document.getElementById("lesson-exercises");
+            exercisesList.innerHTML = '';
+            lesson.exercises.forEach(exercise => {
+                const li = document.createElement('li');
+                li.innerText = exercise;
+                exercisesList.appendChild(li);
+            });
+
+            const referencesDiv = document.getElementById("lesson-references");
+            referencesDiv.innerHTML = lesson.references.join('<br>');
+
+            const sidebar = document.getElementById("lesson-sidebar");
+            sidebar.innerHTML = '<h3>Các bài học</h3>';
+
+            lesson.lessons.forEach(lessonItem => {
+                const lessonLink = document.createElement('a');
+                lessonLink.className = 'button';
+                lessonLink.href = '#';
+                lessonLink.onclick = () => showLessonDetails(lessonItem.key);
+                lessonLink.innerText = lessonItem.title;
+                sidebar.appendChild(lessonLink);
+            });
+
+            document.getElementById("lesson-modal").style.display = 'flex';
+        }
+
+        function showLessonDetails(key) {
+            const details = {
+                "html-structure": {
+                    title: "Cấu trúc HTML",
+                    content: "Cấu trúc cơ bản của một tài liệu HTML bao gồm các thẻ như <html>, <head>, và <body>."
+                },
+                "html-tags": {
+                    title: "Thẻ HTML cơ bản",
+                    content: "Một số thẻ cơ bản trong HTML bao gồm <h1>, <p>, <a>, <img>, v.v."
+                },
+                "html-forms": {
+                    title: "Tạo biểu mẫu(Forms)",
+                    content: "Thẻ <form> và các thuộc tính của nó." ,  
+                    content: "Các thẻ đầu vào: <input>, <textarea>, <select>",
+                    content: "Thẻ nút: <button>, <input type=submit>."
+                },
+                "html-multimedia": {
+                    title: "Thẻ multimedia",
+                    content: "Nhúng video: <video>." ,  
+                    content: "Nhúng âm thanh: <audio>.",
+                    content: "Tích hợp iframe: <iframe>."
+                },
+                "css-usage": {
+                    title: "Cách sử dụng CSS",
+                    content: "CSS có thể được thêm vào HTML thông qua thẻ <style>, thuộc tính style, hoặc liên kết đến tệp CSS."
+                },
+                "css-flexbox": {
+                    title: "CSS Flexbox",
+                    content: "Flexbox là một mô hình bố cục giúp tạo các bố cục linh hoạt và dễ dàng."
+                },
+                "js-variables": {
+                    title: "Biến và kiểu dữ liệu",
+                    content: "JavaScript hỗ trợ nhiều kiểu dữ liệu như Number, String, Boolean, v.v."
+                },
+                "js-functions": {
+                    title: "Hàm trong JavaScript",
+                    content: "Hàm là một đoạn mã có thể được gọi và thực thi nhiều lần."
+                },  
+                "python-basics": {
+                    title: "Cú pháp cơ bản",
+                    content: "Cú pháp của Python rất dễ hiểu và có thể được sử dụng để phát triển nhanh chóng."
+                },
+                "python-libraries": {
+                    title: "Thư viện trong Python",
+                    content: "Python có nhiều thư viện phong phú hỗ trợ phát triển ứng dụng."
+                },
+                "java-intro": {
+                    title: "Giới thiệu về Java",
+                    content: "Java là một ngôn ngữ lập trình hướng đối tượng mạnh mẽ."
+                },
+                "java-oop": {
+                    title: "Lập trình hướng đối tượng",
+                    content: "Lập trình hướng đối tượng trong Java cho phép tạo các đối tượng và lớp."
+                },
+                "spring-install": {
+                    title: "Cài đặt Spring",
+                    content: "Hướng dẫn cài đặt Spring Framework cho dự án của bạn."
+                },
+                "spring-rest": {
+                    title: "RESTful API với Spring",
+                    content: "Cách xây dựng RESTful API bằng Spring Framework."
+                }
+            };
+
+            const detail = details[key];
+            document.getElementById("lesson-title").innerText = detail.title;
+            document.getElementById("lesson-lecture").innerText = detail.content;
+        }
+
+        function hideContent() {
+            document.getElementById("lesson-modal").style.display = 'none';
+        }
+    </script>
+</body>
+</html>
