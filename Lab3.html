@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài liệu học tập</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .topic {
+            background: #ffffff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .topic:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .topic-description {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #35424a;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #4a5d69;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            display: flex;
+            width: 100%;
+            height: 95%;
+            max-width: 1400px;
+            max-height: 900px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 300px;
+            padding: 10px;
+            border-right: 1px solid #ddd;
+            background-color: #f9f9f9;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .sidebar h3 {
+            margin: 0 0 10px;
+        }
+
+        .sidebar .button {
+            width: 80%;
+            margin: 5px 0;
+            text-align: left;
+        }
+
+        .content {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: #35424a;
+            color: #ffffff;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tài liệu học tập cho sinh viên</h1>
+        <p>Tham khảo các chủ đề học tập dưới đây.</p>
+    </header>
+
+    <div id="topic-list">
+        <div class="topic">
+            <strong>1. HTML</strong>
+            <p class="topic-description">Tìm hiểu về cấu trúc và cách sử dụng HTML để xây dựng trang web.</p>
+            <a href="#" class="button" onclick="showContent('html')">Xem bài học</a>
+        </div>
+        <div class="topic">
+            <strong>2. CSS</strong>
+            <p class="topic-description">Khám phá cách tạo kiểu và định dạng cho trang web với CSS.</p>
+            <a href="#" class="button" onclick="showContent('css')">Xem bài học</a>
+        </div>
+        <div class="topic">
+            <strong>3. JavaScript</strong>
+            <p class="topic-description">Học cách sử dụng JavaScript để tạo ra tính năng tương tác cho trang web.</p>
+            <a href="#" class="button" onclick="showContent('javascript')">Xem bài học</a>
+        </div>
+        <div class="topic">
+            <strong>4. Python</strong>
+            <p class="topic-description">Khám phá ngôn ngữ lập trình Python và các ứng dụng của nó.</p>
+            <a href="#" class="button" onclick="showContent('python')">Xem bài học</a>
+        </div>
+        <div class="topic">
+            <strong>5. Java</strong>
+            <p class="topic-description">Tìm hiểu về lập trình hướng đối tượng với Java.</p>
+            <a href="#" class="button" onclick="showContent('java')">Xem bài học</a>
+        </div>
+        <div class="topic">
+            <strong>6. Java Spring Framework</strong>
+            <p class="topic-description">Khám phá framework Java Spring để phát triển ứng dụng web.</p>
+            <a href="#" class="button" onclick="showContent('javaSpring')">Xem bài học</a>
+        </div>
+    </div>
+
+    <div id="lesson-modal" class="modal">
+        <div class="modal-content">
+            <div class="sidebar" id="lesson-sidebar">
+                <h3>Các bài học</h3>
+            </div>
+            <div class="content">
+                <span onclick="hideContent()" style="cursor:pointer; float:right; font-size: 24px;">&times;</span>
+                <h2 id="lesson-title"></h2>
+                <h3>Bài giảng</h3>
+                <p id="lesson-lecture"></p>
+                <h3>Bài tập</h3>
+                <ul id="lesson-exercises"></ul>
+                <h3>Tài liệu tham khảo</h3>
+                <div id="lesson-references"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Tài liệu học tập</p>
+    </footer>
+
+    <script>
+        const lessons = {
+            html: {
+                title: "HTML",
+                lecture: "Giới thiệu về HTML, cấu trúc tài liệu HTML, thẻ cơ bản.",
+                exercises: [
+                    "Tạo một trang web đơn giản với tiêu đề, đoạn văn và hình ảnh.",
+                    "Thêm danh sách và bảng vào trang web."
+                ],
+                references: [
+                    "<a href='https://developer.mozilla.org/en-US/docs/Web/HTML'>MDN Web Docs: HTML</a>",
+                    "<a href='https://www.w3schools.com/html/'>W3Schools: HTML Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Cấu trúc HTML", key: "html-structure" },
+                    { title: "Thẻ HTML cơ bản", key: "html-tags" },
+                ]
+            },
+            css: {
+                title: "CSS",
+                lecture: "Giới thiệu về CSS, cách áp dụng CSS vào HTML, thuộc tính và giá trị.",
+                exercises: [
+                    "Thiết kế giao diện cho trang web đã tạo ở phần HTML.",
+                    "Tạo một layout cơ bản với Flexbox hoặc Grid."
+                ],
+                references: [
+                    "<a href='https://developer.mozilla.org/en-US/docs/Web/CSS'>MDN Web Docs: CSS</a>",
+                    "<a href='https://www.w3schools.com/css/'>W3Schools: CSS Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Cách sử dụng CSS", key: "css-usage" },
+                    { title: "CSS Flexbox", key: "css-flexbox" }
+                ]
+            },
+            javascript: {
+                title: "JavaScript",
+                lecture: "Giới thiệu về JavaScript, cú pháp cơ bản, biến, kiểu dữ liệu và hàm.",
+                exercises: [
+                    "Tạo một ứng dụng đơn giản như máy tính hoặc bộ đếm thời gian.",
+                    "Thêm tính năng tương tác vào trang web bằng cách sử dụng DOM."
+                ],
+                references: [
+                    "<a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript'>MDN Web Docs: JavaScript</a>",
+                    "<a href='https://www.w3schools.com/js/'>W3Schools: JavaScript Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Biến và kiểu dữ liệu", key: "js-variables" },
+                    { title: "Hàm trong JavaScript", key: "js-functions" }
+                ]
+            },
+            python: {
+                title: "Python",
+                lecture: "Giới thiệu về Python, cú pháp cơ bản và ứng dụng trong phát triển phần mềm.",
+                exercises: [
+                    "Tạo một ứng dụng console đơn giản bằng Python.",
+                    "Thực hành với các bài tập về dữ liệu và kiểu dữ liệu trong Python."
+                ],
+                references: [
+                    "<a href='https://www.python.org/doc/'>Python Documentation</a>",
+                    "<a href='https://www.w3schools.com/python/'>W3Schools: Python Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Cú pháp cơ bản", key: "python-basics" },
+                    { title: "Thư viện trong Python", key: "python-libraries" }
+                ]
+            },
+            java: {
+                title: "Java",
+                lecture: "Giới thiệu về Java, lập trình hướng đối tượng và cấu trúc chương trình Java.",
+                exercises: [
+                    "Viết một chương trình Hello World đơn giản trong Java.",
+                    "Thực hành với các lớp và đối tượng trong Java."
+                ],
+                references: [
+                    "<a href='https://docs.oracle.com/javase/tutorial/'>Java Tutorials</a>",
+                    "<a href='https://www.w3schools.com/java/'>W3Schools: Java Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Giới thiệu về Java", key: "java-intro" },
+                    { title: "Lập trình hướng đối tượng", key: "java-oop" }
+                ]
+            },
+            javaSpring: {
+                title: "Java Spring",
+                lecture: "Giới thiệu về Spring Framework, lập trình ứng dụng web và RESTful API.",
+                exercises: [
+                    "Xây dựng một ứng dụng web đơn giản sử dụng Spring Boot.",
+                    "Thực hành tạo RESTful API với Spring."
+                ],
+                references: [
+                    "<a href='https://spring.io/docs'>Spring Documentation</a>",
+                    "<a href='https://www.baeldung.com/spring-tutorial'>Baeldung: Spring Tutorial</a>"
+                ],
+                lessons: [
+                    { title: "Cài đặt Spring", key: "spring-install" },
+                    { title: "RESTful API với Spring", key: "spring-rest" }
+                ]
+            }
+        };
+
+        function showContent(topic) {
+            const lesson = lessons[topic];
+            document.getElementById("lesson-title").innerText = lesson.title;
+            document.getElementById("lesson-lecture").innerText = lesson.lecture;
+
+            const exercisesList = document.getElementById("lesson-exercises");
+            exercisesList.innerHTML = '';
+            lesson.exercises.forEach(exercise => {
+                const li = document.createElement('li');
+                li.innerText = exercise;
+                exercisesList.appendChild(li);
+            });
+
+            const referencesDiv = document.getElementById("lesson-references");
+            referencesDiv.innerHTML = lesson.references.join('<br>');
+
+            const sidebar = document.getElementById("lesson-sidebar");
+            sidebar.innerHTML = '<h3>Các bài học</h3>';
+
+            lesson.lessons.forEach(lessonItem => {
+                const lessonLink = document.createElement('a');
+                lessonLink.className = 'button';
+                lessonLink.href = '#';
+                lessonLink.onclick = () => showLessonDetails(lessonItem.key);
+                lessonLink.innerText = lessonItem.title;
+                sidebar.appendChild(lessonLink);
+            });
+
+            document.getElementById("lesson-modal").style.display = 'flex';
+        }
+
+        function showLessonDetails(key) {
+    const details = {
+        "html-structure": {
+            title: "Cấu trúc HTML",
+            content: `
+                <h4>1. Tổng quan về HTML</h4>
+                <p>HTML (HyperText Markup Language) là ngôn ngữ đánh dấu chính được sử dụng để tạo trang web. Nó cung cấp cấu trúc cho trang web, cho phép bạn định nghĩa các thành phần như tiêu đề, đoạn văn, hình ảnh, và liên kết.</p>
+                <h4>2. Các thẻ cơ bản</h4>
+                <p>Một tài liệu HTML thường có cấu trúc như sau:</p>
+                <pre>
+                    &lt;!DOCTYPE html&gt;
+                    &lt;html&gt;
+                        &lt;head&gt;
+                            &lt;title&gt;Tiêu đề của trang&lt;/title&gt;
+                        &lt;/head&gt;
+                        &lt;body&gt;
+                            &lt;h1&gt;Đây là tiêu đề&lt;/h1&gt;
+                            &lt;p&gt;Đây là một đoạn văn.&lt;/p&gt;
+                        &lt;/body&gt;
+                    &lt;/html&gt;
+                </pre>
+                <h4>3. Các thẻ phổ biến</h4>
+                <ul>
+                    <li><strong>&lt;h1&gt; đến &lt;h6&gt;:</strong> Dùng để tạo tiêu đề cho các phần khác nhau.</li>
+                    <li><strong>&lt;p&gt;:</strong> Dùng để tạo đoạn văn.</li>
+                    <li><strong>&lt;a&gt;:</strong> Tạo liên kết đến trang khác.</li>
+                    <li><strong>&lt;img&gt;:</strong> Nhúng hình ảnh vào trang.</li>
+                </ul>
+                <h4>4. Tài liệu tham khảo</h4>
+                <p>Để tìm hiểu thêm về HTML, bạn có thể tham khảo các nguồn tài liệu sau:</p>
+                <ul>
+                    <li><a href='https://developer.mozilla.org/en-US/docs/Web/HTML'>MDN Web Docs: HTML</a></li>
+                    <li><a href='https://www.w3schools.com/html/'>W3Schools: HTML Tutorial</a></li>
+                </ul>
+            `
+        },
+        "html-tags": {
+        title: "Thẻ HTML cơ bản",
+        content: `
+            <h4>1. Giới thiệu về thẻ HTML</h4>
+            <p>Các thẻ HTML là các thành phần cơ bản trong một tài liệu HTML, giúp xác định cấu trúc và nội dung của trang web.</p>
+            <h4>2. Một số thẻ HTML phổ biến</h4>
+            <ul>
+                <li><strong>&lt;h1&gt; đến &lt;h6&gt;:</strong> Dùng để tạo các tiêu đề, với &lt;h1&gt; là tiêu đề lớn nhất.</li>
+                <li><strong>&lt;p&gt;:</strong> Dùng để tạo đoạn văn.</li>
+                <li><strong>&lt;a&gt;:</strong> Tạo liên kết đến trang khác hoặc tài liệu khác.</li>
+                <li><strong>&lt;img&gt;:</strong> Nhúng hình ảnh vào trang.</li>
+                <li><strong>&lt;ul&gt; và &lt;ol&gt;:</strong> Dùng để tạo danh sách không có thứ tự và danh sách có thứ tự.</li>
+            </ul>
+            <h4>3. Cách sử dụng thẻ HTML</h4>
+            <pre>
+                &lt;h1&gt;Đây là tiêu đề chính&lt;/h1&gt;
+                &lt;p&gt;Đây là một đoạn văn.&lt;/p&gt;
+                &lt;a href="https://example.com"&gt;Liên kết đến Example&lt;/a&gt;
+                &lt;img src="image.jpg" alt="Mô tả hình ảnh"&gt;
+            </pre>
+            <h4>4. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về thẻ HTML, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element'>MDN Web Docs: Thẻ HTML</a></li>
+                <li><a href='https://www.w3schools.com/tags/default.asp'>W3Schools: HTML Tags</a></li>
+            </ul>
+        `
+    },
+
+    "html-forms": {
+        title: "Tạo biểu mẫu (Forms)",
+        content: `
+            <h4>1. Giới thiệu về biểu mẫu</h4>
+            <p>Biểu mẫu HTML cho phép người dùng nhập dữ liệu và gửi nó đến máy chủ. Biểu mẫu được định nghĩa bằng thẻ <code>&lt;form&gt;</code>.</p>
+            <h4>2. Cấu trúc của một biểu mẫu</h4>
+            <pre>
+                &lt;form action="submit.php" method="post"&gt;
+                    &lt;label for="name"&gt;Tên:&lt;/label&gt;
+                    &lt;input type="text" id="name" name="name"&gt;
+                    &lt;input type="submit" value="Gửi"&gt;
+                &lt;/form&gt;
+            </pre>
+            <h4>3. Các thẻ đầu vào phổ biến</h4>
+            <ul>
+                <li><strong>&lt;input&gt;:</strong> Dùng để tạo các trường nhập liệu, với các loại như text, password, checkbox, radio, v.v.</li>
+                <li><strong>&lt;textarea&gt;:</strong> Dùng để tạo một vùng văn bản lớn cho người dùng nhập nội dung.</li>
+                <li><strong>&lt;select&gt;:</strong> Dùng để tạo một danh sách thả xuống cho người dùng chọn.</li>
+            </ul>
+            <h4>4. Ví dụ về biểu mẫu</h4>
+            <pre>
+                &lt;form action="submit.php" method="post"&gt;
+                    &lt;label for="email"&gt;Email:&lt;/label&gt;
+                    &lt;input type="email" id="email" name="email"&gt;
+                    &lt;input type="submit" value="Đăng ký"&gt;
+                &lt;/form&gt;
+            </pre>
+            <h4>5. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về biểu mẫu, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form'>MDN Web Docs: Biểu mẫu HTML</a></li>
+                <li><a href='https://www.w3schools.com/html/html_forms.asp'>W3Schools: HTML Forms</a></li>
+            </ul>
+        `
+    },
+
+    "html-multimedia": {
+        title: "Thẻ multimedia",
+        content: `
+            <h4>1. Giới thiệu về thẻ multimedia</h4>
+            <p>Các thẻ multimedia trong HTML cho phép bạn nhúng các tệp phương tiện như âm thanh và video vào trang web.</p>
+            <h4>2. Thẻ &lt;video&gt;</h4>
+            <p>Thẻ <code>&lt;video&gt;</code> được sử dụng để nhúng video. Bạn có thể chỉ định các thuộc tính như chiều rộng, chiều cao và các tệp video khác nhau cho các trình duyệt khác nhau.</p>
+            <pre>
+                &lt;video width="320" height="240" controls&gt;
+                    &lt;source src="movie.mp4" type="video/mp4"&gt;
+                    &lt;source src="movie.ogg" type="video/ogg"&gt;
+                    Trình duyệt của bạn không hỗ trợ video.
+                &lt;/video&gt;
+            </pre>
+            <h4>3. Thẻ &lt;audio&gt;</h4>
+            <p>Thẻ <code>&lt;audio&gt;</code> được sử dụng để nhúng âm thanh. Bạn cũng có thể thêm các thuộc tính tương tự như thẻ video.</p>
+            <pre>
+                &lt;audio controls&gt;
+                    &lt;source src="audio.mp3" type="audio/mpeg"&gt;
+                    Trình duyệt của bạn không hỗ trợ âm thanh.
+                &lt;/audio&gt;
+            </pre>
+            <h4>4. Thẻ &lt;iframe&gt;</h4>
+            <p>Thẻ <code>&lt;iframe&gt;</code> được sử dụng để nhúng một trang web khác vào trang hiện tại.</p>
+            <pre>
+                &lt;iframe src="https://example.com" width="600" height="400"&gt;&lt;/iframe&gt;
+            </pre>
+            <h4>5. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về multimedia trong HTML, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video'>MDN Web Docs: Thẻ video</a></li>
+                <li><a href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio'>MDN Web Docs: Thẻ audio</a></li>
+                <li><a href='https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe'>MDN Web Docs: Thẻ iframe</a></li>
+            </ul>
+        `
+},
+                "css-usage": {
+        title: "Cách sử dụng CSS",
+        content: `
+            <h4>1. Giới thiệu về CSS</h4>
+            <p>CSS (Cascading Style Sheets) được sử dụng để định dạng giao diện của trang web. Nó cho phép bạn kiểm soát màu sắc, phông chữ, khoảng cách và nhiều yếu tố khác.</p>
+            <h4>2. Cách nhúng CSS vào HTML</h4>
+            <p>Có ba cách để thêm CSS vào HTML:</p>
+            <ul>
+                <li><strong>Inline CSS:</strong> Sử dụng thuộc tính style trong thẻ HTML.</li>
+                <li><strong>Internal CSS:</strong> Sử dụng thẻ <code>&lt;style&gt;</code> trong phần <code>&lt;head&gt;</code>.</li>
+                <li><strong>External CSS:</strong> Liên kết đến một tệp CSS bên ngoài bằng thẻ <code>&lt;link&gt;</code>.</li>
+            </ul>
+            <h4>3. Ví dụ về CSS</h4>
+            <pre>
+                &lt;style&gt;
+                    body {
+                        background-color: lightblue;
+                    }
+                    h1 {
+                        color: white;
+                    }
+                &lt;/style&gt;
+            </pre>
+            <h4>4. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về CSS, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://developer.mozilla.org/en-US/docs/Web/CSS'>MDN Web Docs: CSS</a></li>
+                <li><a href='https://www.w3schools.com/css/'>W3Schools: CSS Tutorial</a></li>
+            </ul>
+        `
+    },
+    "css-flexbox": {
+        title: "CSS Flexbox",
+        content: `
+            <h4>1. Giới thiệu về Flexbox</h4>
+            <p>Flexbox là một mô hình bố cục trong CSS, cho phép bạn tạo các bố cục linh hoạt và dễ dàng quản lý không gian giữa các phần tử.</p>
+            <h4>2. Cách sử dụng Flexbox</h4>
+            <pre>
+                .container {
+                    display: flex;
+                }
+            </pre>
+            <h4>3. Các thuộc tính chính của Flexbox</h4>
+            <ul>
+                <li><strong>flex-direction:</strong> Xác định hướng của các phần tử con (row, column, row-reverse, column-reverse).</li>
+                <li><strong>justify-content:</strong> Xác định cách phân bổ không gian dọc theo trục chính (flex-start, flex-end, center, space-between, space-around).</li>
+                <li><strong>align-items:</strong> Xác định cách căn chỉnh các phần tử dọc theo trục chéo (stretch, flex-start, flex-end, center).</li>
+            </ul>
+            <h4>4. Ví dụ về Flexbox</h4>
+            <pre>
+                .container {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                }
+            </pre>
+            <h4>5. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về Flexbox, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://css-tricks.com/snippets/css/a-guide-to-flexbox/'>CSS Tricks: A Complete Guide to Flexbox</a></li>
+                <li><a href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox'>MDN Web Docs: Flexbox</a></li>
+            </ul>
+        `
+    },
+
+    "js-variables": {
+        title: "Biến và kiểu dữ liệu",
+        content: `
+            <h4>1. Giới thiệu về biến trong JavaScript</h4>
+            <p>Biến được sử dụng để lưu trữ thông tin mà có thể thay đổi trong chương trình. JavaScript hỗ trợ ba cách khai báo biến: <code>var</code>, <code>let</code>, và <code>const</code>.</p>
+            <h4>2. Các loại dữ liệu trong JavaScript</h4>
+            <ul>
+                <li><strong>Number:</strong> Số nguyên và số thập phân.</li>
+                <li><strong>String:</strong> Chuỗi ký tự.</li>
+                <li><strong>Boolean:</strong> Giá trị true hoặc false.</li>
+                <li><strong>Object:</strong> Tập hợp các giá trị dưới dạng cặp key-value.</li>
+                <li><strong>Array:</strong> Danh sách các giá trị.</li>
+            </ul>
+            <h4>3. Ví dụ về khai báo biến</h4>
+            <pre>
+                let name = "Alice";
+                const age = 25;
+                var isStudent = true;
+            </pre>
+            <h4>4. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về biến và kiểu dữ liệu, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar#declarations'>MDN Web Docs: Biến trong JavaScript</a></li>
+                <li><a href='https://www.w3schools.com/js/js_datatypes.asp'>W3Schools: Kiểu dữ liệu trong JavaScript</a></li>
+            </ul>
+        `
+    },
+
+    "js-functions": {
+        title: "Hàm trong JavaScript",
+        content: `
+            <h4>1. Giới thiệu về hàm</h4>
+            <p>Hàm là một đoạn mã có thể được gọi và thực thi nhiều lần. Hàm giúp bạn tổ chức mã và tái sử dụng nó.</p>
+            <h4>2. Cách định nghĩa hàm</h4>
+            <pre>
+                function myFunction(param1, param2) {
+                    return param1 + param2;
+                }
+            </pre>
+            <h4>3. Gọi hàm</h4>
+            <pre>
+                let result = myFunction(5, 10); // result sẽ là 15
+            </pre>
+            <h4>4. Hàm ẩn danh và hàm mũi tên</h4>
+            <pre>
+                const add = function(a, b) {
+                    return a + b;
+                };
+                
+                const addArrow = (a, b) => a + b;
+            </pre>
+            <h4>5. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về hàm trong JavaScript, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions'>MDN Web Docs: Hàm trong JavaScript</a></li>
+                <li><a href='https://www.w3schools.com/js/js_functions.asp'>W3Schools: JavaScript Functions</a></li>
+            </ul>
+        `
+    },
+
+    "python-basics": {
+        title: "Cú pháp cơ bản",
+        content: `
+            <h4>1. Giới thiệu về Python</h4>
+            <p>Python là một ngôn ngữ lập trình dễ học, mạnh mẽ và phổ biến trong nhiều lĩnh vực như phát triển web, phân tích dữ liệu, và trí tuệ nhân tạo.</p>
+            <h4>2. Cú pháp cơ bản</h4>
+            <pre>
+                # Đây là một bình luận
+                print("Hello, World!")  # In ra màn hình
+            </pre>
+            <h4>3. Biến trong Python</h4>
+            <p>Có thể khai báo biến mà không cần chỉ định kiểu dữ liệu.</p>
+            <pre>
+                name = "Alice"
+                age = 25
+                is_student = True
+            </pre>
+            <h4>4. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về cú pháp Python, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://docs.python.org/3/tutorial/index.html'>Python Official Tutorial</a></li>
+                <li><a href='https://www.w3schools.com/python/python_syntax.asp'>W3Schools: Python Syntax</a></li>
+            </ul>
+        `
+    },
+
+    "python-libraries": {
+        title: "Thư viện trong Python",
+        content: `
+            <h4>1. Giới thiệu về thư viện</h4>
+            <p>Python có nhiều thư viện phong phú giúp hỗ trợ phát triển ứng dụng, từ khoa học dữ liệu đến phát triển web.</p>
+            <h4>2. Một số thư viện phổ biến</h4>
+            <ul>
+                <li><strong>Pandas:</strong> Thư viện để xử lý và phân tích dữ liệu.</li>
+                <li><strong>NumPy:</strong> Thư viện cho tính toán khoa học với các mảng và ma trận.</li>
+                <li><strong>Flask:</strong> Thư viện cho phát triển ứng dụng web nhẹ.</li>
+                <li><strong>Django:</strong> Thư viện cho phát triển ứng dụng web mạnh mẽ.</li>
+            </ul>
+            <h4>3. Cách cài đặt thư viện</h4>
+            <pre>
+                pip install library_name
+            </pre>
+            <h4>4. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về thư viện trong Python, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://pypi.org/'>Python Package Index</a></li>
+                <li><a href='https://realpython.com/'>Real Python</a></li>
+            </ul>
+        `
+    },
+
+    "java-intro": {
+        title: "Giới thiệu về Java",
+        content: `
+            <h4>1. Giới thiệu về Java</h4>
+            <p>Java là một ngôn ngữ lập trình hướng đối tượng, đa nền tảng và rất phổ biến trong phát triển ứng dụng doanh nghiệp và di động.</p>
+            <h4>2. Tính năng nổi bật</h4>
+            <ul>
+                <li>Độc lập nền tảng: Java có thể chạy trên bất kỳ hệ điều hành nào có cài đặt Java Runtime Environment (JRE).</li>
+                <li>Hướng đối tượng: Hỗ trợ các nguyên lý lập trình hướng đối tượng như kế thừa, đóng gói và đa hình.</li>
+                <li>Quản lý bộ nhớ tự động: Sử dụng Garbage Collector để quản lý bộ nhớ.</li>
+            </ul>
+            <h4>3. Cách cài đặt Java</h4>
+            <p>Truy cập <a href='https://www.oracle.com/java/technologies/javase-downloads.html'>Oracle Java SE Downloads</a> để tải và cài đặt Java.</p>
+            <h4>4. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về Java, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://www.oracle.com/java/technologies/javase-tutorials.html'>Oracle: Java Tutorials</a></li>
+                <li><a href='https://www.w3schools.com/java/'>W3Schools: Java</a></li>
+            </ul>
+        `
+    },
+
+    "java-oop": {
+        title: "Lập trình hướng đối tượng",
+        content: `
+            <h4>1. Giới thiệu về OOP trong Java</h4>
+            <p>Lập trình hướng đối tượng (OOP) là một phương pháp lập trình sử dụng các đối tượng và lớp để tổ chức mã.</p>
+            <h4>2. Các nguyên lý chính của OOP</h4>
+            <ul>
+                <li><strong>Kế thừa:</strong> Cho phép một lớp kế thừa thuộc tính và phương thức từ một lớp khác.</li>
+                <li><strong>Đóng gói:</strong> Bảo vệ dữ liệu bằng cách ẩn thông tin chi tiết bên trong lớp.</li>
+                <li><strong>Đa hình:</strong> Cho phép các đối tượng khác nhau sử dụng cùng một phương thức nhưng với hành vi khác nhau.</li>
+            </ul>
+            <h4>3. Ví dụ về OOP</h4>
+            <pre>
+                class Animal {
+                    void sound() {
+                        System.out.println("Animal sound");
+                    }
+                }
+                
+                class Dog extends Animal {
+                    void sound() {
+                        System.out.println("Bark");
+                    }
+                }
+            </pre>
+            <h4>4. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về OOP trong Java, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://www.oracle.com/java/technologies/javase/tutorial/java/IandI/index.html'>Oracle: Inheritance and Polymorphism</a></li>
+                <li><a href='https://www.w3schools.com/java/java_oop.asp'>W3Schools: Java OOP</a></li>
+            </ul>
+        `
+    },
+
+    "spring-install": {
+        title: "Cài đặt Spring",
+        content: `
+            <h4>1. Giới thiệu về Spring</h4>
+            <p>Spring là một framework phổ biến cho phát triển ứng dụng Java, đặc biệt là cho ứng dụng web và RESTful API.</p>
+            <h4>2. Cài đặt Spring Boot</h4>
+            <p>Cách dễ nhất để bắt đầu với Spring là sử dụng Spring Boot.</p>
+            <pre>
+                1. Cài đặt Java Development Kit (JDK).
+                2. Tải xuống Spring Initializr từ <a href='https://start.spring.io/'>Spring Initializr</a>.
+                3. Tạo dự án và tải về.
+                4. Giải nén và mở trong IDE (như IntelliJ IDEA, Eclipse).
+            </pre>
+            <h4>3. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về cài đặt Spring, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://spring.io/guides/gs/spring-boot/'>Spring Boot Guide</a></li>
+                <li><a href='https://www.baeldung.com/spring-boot-started'>Baeldung: Spring Boot</a></li>
+            </ul>
+        `
+    },
+
+    "spring-rest": {
+        title: "RESTful API với Spring",
+        content: `
+            <h4>1. Giới thiệu về RESTful API</h4>
+            <p>RESTful API là một phương pháp để xây dựng các dịch vụ web dựa trên kiến trúc REST.</p>
+            <h4>2. Xây dựng RESTful API với Spring</h4>
+            <pre>
+                @RestController
+                public class HelloWorldController {
+                    @GetMapping("/hello")
+                    public String hello() {
+                        return "Hello, World!";
+                    }
+                }
+            </pre>
+            <h4>3. Tài liệu tham khảo</h4>
+            <p>Để tìm hiểu thêm về RESTful API với Spring, bạn có thể tham khảo:</p>
+            <ul>
+                <li><a href='https://spring.io/guides/tutorials/rest-with-spring/'>Spring REST Tutorial</a></li>
+                <li><a href='https://www.baeldung.com/rest-with-spring-series'>Baeldung: REST with Spring</a></li>
+            </ul>
+        `
+    }
+};
+
+            const detail = details[key];
+            document.getElementById("lesson-title").innerText = detail.title;
+            document.getElementById("lesson-lecture").innerHTML = detail.content;
+    }
+
+        function hideContent() {
+            document.getElementById("lesson-modal").style.display = 'none';
+        }
+    </script>
+</body>
+</html>
