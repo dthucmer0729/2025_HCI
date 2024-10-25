@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            padding: 10px;
+            color: black;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        nav ul li {
+            padding: 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .main {
+            padding: 20px;
+        }
+
+        .profile {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            background-color: grey;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 60px;
+            color: white;
+            margin-right: 15px;
+            font-size: 2em;
+        }
+
+        .profile-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-text p {
+            margin: 0;
+            font-weight: bold;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .profile-text a {
+            color: #000000;
+            text-decoration: none;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .weekly-streak-container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .streak-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .streak-info h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .streak-info p {
+            margin: 5px 0 0;
+            color: #666;
+        }
+
+        .streak-details {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .current-streak {
+            display: flex;
+            align-items: center;
+            margin-right: 300px;
+            text-align: center;
+        }
+
+        .current-streak .icon {
+            font-size: 2em;
+            color: #6a0dad;
+            margin-right: 10px;
+        }
+
+        .current-streak strong {
+            font-size: 1.2em;
+        }
+
+        .progress-info {
+            display: flex;
+            align-items: center;
+            margin-right: 80px;
+        }
+
+        .progress-circle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            position: relative;
+            background-image: conic-gradient(#aeff00 var(--progress), #e0e0e0 var(--progress));
+        }
+
+        .circle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: white;
+            transform: translate(-50%, -50%);
+        }
+
+        .progress-circle strong {
+            font-size: 1.1em;
+            color: #000;
+        }
+
+        .progress-circle p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .activity-link {
+            position: absolute;
+            bottom: 0px;
+            right: 140px;
+            color: #5b5bff;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .activity-link:hover {
+            text-decoration: none;
+        }
+
+        .learning-section {
+            margin-top: 30px;
+            padding: 20px;
+        }
+
+        .learning-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .learning-header h2 {
+            font-size: 2em;
+            margin: 0;
+        }
+
+        .my-learning-link {
+            color: #5b5bff;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .my-learning-link:hover {
+            text-decoration: none;
+        }
+
+        .learning-tabs ul {
+            list-style: none;
+            display: flex;
+            padding: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+        }
+
+        .learning-tabs li {
+            margin-right: 20px;
+            padding-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .learning-tabs li.active {
+            border-bottom: 3px solid #000;
+            font-weight: bold;
+        }
+
+        .recommendation-section {
+            margin-top: 20px;
+        }
+
+        .recommendation-item {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 23%;
+            text-align: center;
+        }
+
+        .recommendation-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .recommendation-item h3 {
+            font-size: 16px;
+            color: #333;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .recommendation-item p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .recommendation-item .rating {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .personalization-section {
+            position: relative;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: #fff;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 700px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .personalization-section .icon {
+            font-size: 40px;
+            color: #f0a500;
+            margin-bottom: 20px;
+        }
+
+        .personalization-section h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .personalization-section p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .personalization-section .add-info-btn {
+            padding: 12px 24px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .personalization-section .add-info-btn:hover {
+            background-color: #555;
+        }
+
+        .personalization-section .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .personalization-section .close-btn:hover {
+            color: #000;
+        }
+
+                .learning-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .learning-header h2 {
+            font-size: 2em;
+            margin: 0;
+        }
+
+        .my-learning-link {
+            color: #5b5bff;
+            font-weight: bold;
+            text-decoration: none; /* Bỏ gạch chân */
+        }
+
+        .my-learning-link:hover {
+            text-decoration: underline;
+        }
+
+        .recommendation-section {
+            display: flex; /* Sử dụng flexbox */
+            flex-wrap: wrap; /* Cho phép xuống dòng nếu không đủ chỗ */
+            gap: 20px; /* Khoảng cách giữa các mục */
+            margin-top: 20px; /* Khoảng cách trên */
+        }
+
+        .recommendation-item {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 23%;
+            text-align: center;
+        }
+
+        .video-links {
+            display: flex; /* Flexbox cho các liên kết video */
+            justify-content: space-between; /* Giữa các liên kết video */
+            margin-top: 20px; /* Khoảng cách với các khóa học */
+        }
+
+        .video-link {
+            color: #5b5bff;
+            text-decoration: underline;
+            font-weight: bold;
+            margin: 0 10px; /* Khoảng cách giữa các liên kết */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Business Operations</a></li>
+                <li><a href="#">Cloud Computing</a></li>
+                <li><a href="#">Cybersecurity</a></li>
+                <li><a href="#">Data Science</a></li>
+                <li><a href="#">Development</a></li>
+                <li><a href="#">IT Operations</a></li>
+                <li><a href="#">Language Learning</a></li>
+                <li><a href="#">Leadership & Management</a></li>
+                <li><a href="#">Marketing</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Profile Section -->
+    <div class="profile">
+        <div class="profile-info">
+            <span class="avatar">T</span>
+            <div class="profile-text">
+                <p>Welcome back, Pham Hoang Duy Thuc</p>
+                <a href="#">Add occupation and interests</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <main>
+        <!-- Weekly streak section -->
+        <div class="weekly-streak-container">
+            <div class="streak-info">
+                <h2>Weekly streak</h2>
+                <p style="white-space: nowrap;">One ring down, one to go. Keep it up!</p>
+            </div>
+            <div class="streak-details">
+                <div class="current-streak" style="margin-left: auto;">
+                    <span class="icon">🔥</span>
+                    <div>
+                        <strong>2 weeks</strong>
+                        <p style="margin: 0;">Current streak</p>
+                    </div>
+                </div>
+                <div class="progress-info">
+                    <div class="progress-circle">
+                        <div class="circle" style="--progress: 36.67%;"></div> <!-- 11/30 -->
+                        <strong>11/30</strong>
+                        <p>course min</p>
+                    </div>
+                    <div class="progress-circle">
+                        <div class="circle" style="--progress: 400%;"></div> <!-- 4/1 -->
+                        <strong>4/1</strong>
+                        <p>visit</p>
+                    </div>
+                    <a href="#" class="activity-link">See all activity</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Progress Cards -->
+        <div class="learning-section">
+            <div class="learning-header">
+                <h2>Pick up where you left off</h2>
+                <a href="#" class="my-learning-link">My learning</a>
+            </div>
+        
+            <div class="learning-tabs">
+                <ul>
+                    <li class="active">Courses</li>
+                    <li>Learning paths</li>
+                    <li>Certification preparation</li>
+                </ul>
+            </div>
+
+            <div class="recommendation-section">
+                <div class="recommendation-item">
+                    <img src="https://daivietdanang.edu.vn/uploads/images/2021/tuyen_sinh/011220212.jpg" alt="Introduction">
+                    <h3>1. Introduction</h3>
+                    <p>FPT ISMS Refresh Training S2 2024</p>
+                    <div class="rating">
+                    </div>
+                </div>
+
+                <div class="recommendation-item">
+                    <img src="https://thptchuyensonla.edu.vn/wp-content/uploads/2020/06/nganh-it-o-viet-nam-wallpaper-678x381.jpg" alt="Integration introduction">
+                    <h3>2. Integration introduction</h3>
+                    <p>MuleSoft 4.X Complete Guilde For Beginner</p>
+                    <div class="rating">
+                    </div>
+                </div>
+
+                <div class="recommendation-item">
+                    <img src="https://cellphones.com.vn/sforum/wp-content/uploads/2023/12/nganh-it-la-gi-1.jpg" alt="Quiz and Questions">
+                    <h3>7. Quiz and Questions</h3>
+                    <p>English Vocabulary: 504 Essential Words</p>
+                    <div class="rating">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="learning-section">
+            <div class="learning-header">
+                <h2>Based on your certification interests, we recommend</h2>
+            </div>
+        
+            <div class="recommendation-section">
+                <div class="recommendation-item">
+                    <img src="data:image/jpeg;base64,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" alt="Certification 1">
+                    <h3>Oracle Certified Associate Java Progammer</h3>
+                    <p>Andrii Piatakha, Learn IT University</p>
+                    <div class="rating">
+                        <span>4.6</span>
+                        <span>⭐⭐⭐⭐⭐ (438)</span>
+                    </div>
+                </div>
+        
+                <div class="recommendation-item">
+                    <img src="https://i0.wp.com/www.isecprep.com/wp-content/uploads/2023/02/Oracle-Certified-Java-Programmer.png?fit=700%2C400&ssl=1" alt="Certification 2">
+                    <h3>Oracle Java Certification - Pass the Associate</h3>
+                    <p>Tim Buchalka's Learn Programming Academy</p>
+                    <div class="rating">
+                        <span>4.6</span>
+                        <span>⭐⭐⭐⭐⭐ (5,906)</span>
+                    </div>
+                </div>
+        
+                <div class="recommendation-item">
+                    <img src="https://img-c.udemycdn.com/course/750x422/3740582_cc2c_7.jpg" alt="Certification 3">
+                    <h3>Complete Java SE 8 Developer Bootcamp</h3>
+                    <p>Intertech Training, Jeff Jensen</p>
+                    <div class="rating">
+                        <span>4.6</span>
+                        <span>⭐⭐⭐⭐⭐ (9,726)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Personalization Section -->
+        <div class="personalization-section">
+            <div class="icon">
+                <span>👤</span>
+            </div>
+            <h2>Personalize your learning experience</h2>
+            <p>Add your occupation and interests to get better content recommendations.</p>
+            <button class="add-info-btn">Add occupation and interests</button>
+            <span class="close-btn">×</span>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Footer content if any -->
+    </footer>
+
+    <script>
+        // Giá trị tiến độ
+        const progressValues = [
+            { element: document.querySelectorAll('.progress-circle')[0].querySelector('.circle'), total: 30, completed: 11 },
+            { element: document.querySelectorAll('.progress-circle')[1].querySelector('.circle'), total: 1, completed: 4 }
+        ];
+
+        // Cập nhật tiến độ
+        progressValues.forEach(progress => {
+            const percentage = (progress.completed / progress.total) * 100;
+            progress.element.style.setProperty('--progress', `${percentage}%`);
+            progress.element.nextElementSibling.textContent = `${progress.completed}/${progress.total}`;
+        });
+    </script>
+</body>
+</html>
