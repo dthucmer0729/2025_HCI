@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My learning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .section {
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #my-learning {
+            background-color: #333;
+            color: white;
+        }
+
+        #my-learning h1 {
+            font-size: 36px;
+            text-align: left;
+        }
+
+        .activity-info {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .activity-info span {
+            margin-right: 0px;
+        }
+
+        .watched {
+            font-weight: bold;
+        }
+
+        .info-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #333;
+            color: white;
+            border: 2px solid white;
+            font-size: 14px;
+            margin: 0 10px;
+        }
+
+        .view-all {
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .learning-tabs {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .learning-tabs ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            margin: 0;
+        }
+
+        .learning-tabs li {
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            color: white;
+            margin: 0 5px;
+        }
+
+        .learning-tabs li.active {
+            border-bottom: 3px solid #ffffff;
+            font-weight: bold;
+        }
+
+        .learning-tabs li:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        #recommendations {
+            background-color: #e9f5ff;
+        }
+
+        #recommendations h2 {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .recommendation-item {
+            margin: 15px 0;
+        }
+
+        .recommendation-item img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .rating {
+            margin-top: 5px;
+        }
+
+        .course-filters {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start; /* Đặt căn chỉnh cho các phần tử */
+            justify-content: space-between; /* Căn chỉnh giữa các phần tử */
+        }
+
+        .filter-options {
+            display: flex;
+            flex-direction: center; /* Đặt hướng của flex thành cột */
+            margin-right: 40px; /* Khoảng cách giữa ô tìm kiếm và các filter */
+        }
+
+        .filter-options span {
+            color: #333;
+        }
+
+        .filter-options select {
+            margin-top: 30px; /* Khoảng cách giữa chữ và ô chọn */
+            width: 250px; /* Đặt chiều rộng giống với ô tìm kiếm */
+            padding: 10px; /* Padding cho ô chọn */
+            border: 1px solid #ccc; /* Viền cho ô chọn */
+        }
+
+        .search-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 17px;
+            border: 1px solid #ccc;
+            width: 250px;
+            background-color: white;
+            color: #333;
+        }
+
+        .search-icon {
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        .icon-background {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="section" id="my-learning">
+        <h1>My learning</h1>
+        <div class="activity-info">
+            <span><span class="watched">29hr 7min</span> watched</span>
+            <div class="info-icon">i</div>
+            <span class="view-all">View all activity</span>
+        </div>
+        <div class="learning-tabs">
+            <ul>
+                <li class="active">All courses</li>
+                <li>Learning paths</li>
+                <li>Certifications</li>
+                <li>Archived</li>
+                <li>Learning tools</li>
+            </ul>
+        </div>
+    </div>
+    <div class="section" id="courses">
+        <h2>My Courses</h2>
+        <div class="course-filters">
+            <div class="filter-options">
+                <span>Sort by:</span>
+                <select>
+                    <option value="recently-accessed">Recently Accessed</option>
+                    <option value="highest-rated">Highest Rated</option>
+                    <option value="lowest-rated">Lowest Rated</option>
+                </select>
+                <span>Filter by:</span>
+                <select>
+                    <option value="all">All</option>
+                    <option value="completed">Completed</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="not-started">Not Started</option>
+                </select>
+            </div>
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <input type="text" placeholder="Search my courses" class="search-input" />
+                    <div class="search-icon">
+                        <div class="icon-background">🔍</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="recommendation-item">
+            <img src="https://i0.wp.com/www.isecprep.com/wp-content/uploads/2023/02/Oracle-Certified-Java-Programmer.png?fit=700%2C400&ssl=1" alt="Certification 1">
+            <h3>Oracle Java Certification - Pass the Associate</h3>
+            <p>Tim Buchalka's Learn Programming Academy</p>
+            <div class="rating">
+                <span>4.6</span>
+                <span>⭐⭐⭐⭐⭐ (5,906)</span>
+            </div>  
+        </div>
+        <div class="recommendation-item">
+            <img src="https://img-c.udemycdn.com/course/750x422/3740582_cc2c_7.jpg" alt="Certification 2">
+            <h3>Complete Java SE 8 Developer Bootcamp</h3>
+            <p>Intertech Training, Jeff Jensen</p>
+            <div class="rating">
+                <span>4.6</span>
+                <span>⭐⭐⭐⭐⭐ (9,726)</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
