@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My learning</title>
+    <title>My Learning</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -104,47 +104,34 @@
             margin-top: 20px;
         }
 
-        .recommendation-item {
-            margin: 15px 0;
-        }
-
-        .recommendation-item img {
-            max-width: 100%;
-            border-radius: 5px;
-        }
-
-        .rating {
-            margin-top: 5px;
-        }
-
         .course-filters {
             margin-bottom: 20px;
             display: flex;
-            align-items: flex-start; /* Đặt căn chỉnh cho các phần tử */
-            justify-content: space-between; /* Căn chỉnh giữa các phần tử */
+            align-items: center;
+            justify-content: space-between;
         }
 
         .filter-options {
             display: flex;
-            flex-direction: center; /* Đặt hướng của flex thành cột */
-            margin-right: 40px; /* Khoảng cách giữa ô tìm kiếm và các filter */
+            align-items: center; 
+            margin-right: 20px;
         }
 
         .filter-options span {
             color: #333;
+            margin-right: 10px; 
         }
 
         .filter-options select {
-            margin-top: 30px; /* Khoảng cách giữa chữ và ô chọn */
-            width: 250px; /* Đặt chiều rộng giống với ô tìm kiếm */
-            padding: 10px; /* Padding cho ô chọn */
-            border: 1px solid #ccc; /* Viền cho ô chọn */
+            width: 180px;
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            margin-right: 15px;
         }
 
         .search-container {
-            flex-grow: 1;
             display: flex;
-            justify-content: flex-end;
+            align-items: center;
         }
 
         .search-wrapper {
@@ -172,11 +159,110 @@
         .icon-background {
             color: white;
         }
+
+        /* Styles for course grid */
+        .course-grid {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px; /* Space between course items */
+        }
+
+        .course-item {
+            background-color: white;
+            border-radius: 5px;
+            width: 48%;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            flex: 1 1 calc(25% - 20px); /* Four items in a row */
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .course-item img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .course-item h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .course-item p {
+            margin: 5px 0;
+        }
+
+        .course-item .rating {
+            margin-top: 5px;
+        }
+
+        .progress-container {
+            margin-top: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: #76c7c0;
+            border-radius: 5px;
+            width: 0%; /* Set default width to 0%, will be updated dynamically */
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            padding: 0 10px;
+            font-weight: bold;
+        }
+
+        .rating-section {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .star {
+            font-size: 20px;
+            color: #ccc; /* Color for empty stars */
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        .star.filled {
+            color: #ffcc00;
+        }
+        .course-header {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            width: 100px;
+            height: auto;
+            margin-right: 15px;
+        }
+        .course-info {
+            text-align: left;
+        }
+        .learning-paths {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
     <div class="section" id="my-learning">
-        <h1>My learning</h1>
+        <h1>My Learning</h1>
         <div class="activity-info">
             <span><span class="watched">29hr 7min</span> watched</span>
             <div class="info-icon">i</div>
@@ -184,59 +270,271 @@
         </div>
         <div class="learning-tabs">
             <ul>
-                <li class="active">All courses</li>
-                <li>Learning paths</li>
-                <li>Certifications</li>
-                <li>Archived</li>
-                <li>Learning tools</li>
+                <li class="active" onclick="showTab('all')">All courses</li>
+                <li onclick="showTab('paths')">Learning paths</li>
+                <li onclick="showTab('certifications')">Certifications</li>
+                <li onclick="showTab('archived')">Archived</li>
+                <li onclick="showTab('tools')">Learning tools</li>
             </ul>
         </div>
     </div>
-    <div class="section" id="courses">
-        <h2>My Courses</h2>
-        <div class="course-filters">
-            <div class="filter-options">
-                <span>Sort by:</span>
-                <select>
-                    <option value="recently-accessed">Recently Accessed</option>
-                    <option value="highest-rated">Highest Rated</option>
-                    <option value="lowest-rated">Lowest Rated</option>
-                </select>
-                <span>Filter by:</span>
-                <select>
-                    <option value="all">All</option>
-                    <option value="completed">Completed</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="not-started">Not Started</option>
-                </select>
+    <div id="all" class="tab-content" style="display: block;">  <!-- Tab All Courses -->
+        <div class="section" id="courses">
+            <div class="course-filters">
+                <div class="filter-options">
+                    <span>Sort by:</span>
+                    <select>
+                        <option value="recently-accessed"><strong>Recently Accessed</strong></option>
+                        <option value="highest-rated">Highest Rated</option>
+                        <option value="lowest-rated">Lowest Rated</option>
+                    </select>
+                </div>
+                <div class="filter-options">
+                    <span>Filter by:</span>
+                    <select>
+                        <option value="categories"><strong>Categories</strong></option>
+                        <option value="programming">Programming</option>
+                        <option value="design">Design</option>
+                        <option value="marketing">Marketing</option>
+                    </select>
+                    <select>
+                        <option value="progress"><strong>Progress</strong></option>
+                        <option value="completed">Completed</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="not-started">Not Started</option>
+                    </select>
+                    <select>
+                        <option value="instructor"><strong>Instructor</strong></option>
+                        <option value="instructor1">Instructor 1</option>
+                        <option value="instructor2">Instructor 2</option>
+                        <option value="instructor3">Instructor 3</option>
+                    </select>
+                </div>
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <input type="text" placeholder="Search my courses" class="search-input" />
+                        <div class="search-icon">
+                            <div class="icon-background">🔍</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="search-container">
-                <div class="search-wrapper">
-                    <input type="text" placeholder="Search my courses" class="search-input" />
-                    <div class="search-icon">
-                        <div class="icon-background">🔍</div>
+            <div class="course-grid">
+                <div class="course-item">
+                    <img src="https://img-c.udemycdn.com/course/750x422/4695284_83ea_6.jpg" alt="The Complete Spring Boot Development Bootcamp">
+                    <h3>The Complete Spring Boot Development Bootcamp</h3>
+                    <p>Learn to build web applications.</p>
+                    <div class="author">John Doe</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 75%;"></div>
+                        <span class="progress-text">75%</span>
+                    </div>
+                    <div class="rating-section">
+                        <div class="stars"> 
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                        </div>
+                        <span>Leave a rating</span>
+                    </div>
+                </div>
+                <div class="course-item">
+                    <img src="https://img-c.udemycdn.com/course/750x422/3112646_159d_2.jpg" alt="MuleSoft 4.X Complete Guide For Beginners">
+                    <h3>MuleSoft 4.X Complete Guide For Beginners</h3>
+                    <p>Master MuleSoft and API integration.</p>
+                    <div class="author">Jane Smith</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 60%;"></div>
+                        <span class="progress-text">60%</span>
+                    </div>
+                    <div class="rating-section">
+                        <div class="stars">
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                        </div>
+                        <span>Leave a rating</span>
+                    </div>
+                </div>
+                <div class="course-item">
+                    <img src="https://s3.ap-southeast-1.amazonaws.com/uplyrn.com/uploads%2F0000%2F50%2F2022%2F10%2F09%2F504-absolutely-essential-words-uplyrn.webp" alt="English Vocabulary: 504 Essential Words">
+                    <h3>English Vocabulary: 504 Essential Words</h3>
+                    <p>Enhance your vocabulary skills.</p>
+                    <div class="author">Emily Johnson</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 50%;"></div>
+                        <span class="progress-text">50%</span>
+                    </div>
+                    <div class="rating-section">
+                        <div class="stars">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">☆</span>
+                        </div>
+                        <span>Your rating</span>
+                    </div>
+                </div>
+                <div class="course-item">
+                    <img src="https://img-c.udemycdn.com/course/750x422/2045310_f8a2_7.jpg" alt="Build a Backend Rest API with Python">
+                    <h3>Build a Backend Rest API with Python</h3>
+                    <p>Learn how to create APIs with Python.</p>
+                    <div class="author">Michael Brown</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 80%;"></div>
+                        <span class="progress-text">80%</span>
+                    </div>
+                    <div class="rating-section">
+                        <div class="stars">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </div>
+                        <span>Your rating</span>
+                    </div>
+                </div>
+            </div>
+            <div class="course-grid">
+                <div class="course-item">
+                    <img src="https://img-b.udemycdn.com/course/750x422/4200368_f71e_5.jpg" alt="JavaScript for Beginners">
+                    <h3>JavaScript for Beginners</h3>
+                    <p>Start your journey in web development.</p>
+                    <div class="author">Alice White</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 30%;"></div>
+                        <span class="progress-text">30%</span>
+                    </div>
+                    <div class="rating-section">
+                        <div class="stars">
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                        </div>
+                        <span>Leave a rating</span>
+                    </div>
+                </div>
+                <div class="course-item">
+                    <img src="https://img-b.udemycdn.com/course/750x422/19164_7194_9.jpg" alt="Graphic Design Fundamentals">
+                    <h3>Graphic Design Fundamentals</h3>
+                    <p>Learn the basics of design.</p>
+                    <div class="author">David Green</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 40%;"></div>
+                        <span class="progress-text">40%</span>
+                    </div>
+                    <div class="rating-section">
+                        <div class="stars">
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                        </div>
+                        <span>Leave a rating</span>
+                    </div>
+                </div>
+                <div class="course-item">
+                    <img src="https://img-c.udemycdn.com/course/750x422/5458116_d081_4.jpg" alt="Digital Marketing Strategy">
+                    <h3>Digital Marketing Strategy</h3>
+                    <p>Craft your marketing plan.</p>
+                    <div class="author">Sophia Miller</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 20%;"></div>
+                        <span class="progress-text">20%</span>
+                    </div>
+                    <div class="rating-section">
+                        <div class="stars">
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                            <span class="star">☆</span>
+                        </div>
+                        <span>Leave a rating</span>
+                    </div>
+                </div>
+                <div class="course-item">
+                    <img src="https://img-c.udemycdn.com/course/750x422/6185145_66c2_2.jpg" alt="Data Science Essentials">
+                    <h3>Data Science Essentials</h3>
+                    <p>Introduction to data analysis.</p>
+                    <div class="author">James Johnson</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 70%;"></div>
+                        <span class="progress-text">70%</span>
+                    </div>
+                    <div class="rating-section">
+                        <div class="stars">
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                            <span class="star">⭐</span>
+                        </div>
+                        <span>Your rating</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="recommendation-item">
-            <img src="https://i0.wp.com/www.isecprep.com/wp-content/uploads/2023/02/Oracle-Certified-Java-Programmer.png?fit=700%2C400&ssl=1" alt="Certification 1">
-            <h3>Oracle Java Certification - Pass the Associate</h3>
-            <p>Tim Buchalka's Learn Programming Academy</p>
-            <div class="rating">
-                <span>4.6</span>
-                <span>⭐⭐⭐⭐⭐ (5,906)</span>
-            </div>  
-        </div>
-        <div class="recommendation-item">
-            <img src="https://img-c.udemycdn.com/course/750x422/3740582_cc2c_7.jpg" alt="Certification 2">
-            <h3>Complete Java SE 8 Developer Bootcamp</h3>
-            <p>Intertech Training, Jeff Jensen</p>
-            <div class="rating">
-                <span>4.6</span>
-                <span>⭐⭐⭐⭐⭐ (9,726)</span>
+    </div>
+    <div id="paths" class="tab-content" style="display: none;">
+        <div class="course-grid">
+            <div class="course-item">
+                <div class="course-header">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/FPT_logo_2010.svg/1200px-FPT_logo_2010.svg.png" alt="Data Science Essentials" class="logo">
+                    <div class="course-info">
+                        <p class="learning-paths">Learning Paths</p>
+                        <h3>Induction Training_GAAFOFY (VI)</h3>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 75%;"></div>
+                    <span class="progress-text">3 of 4 items complete</span>
+                </div>
+            </div>
+            <div class="course-item">
+                <div class="course-header">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/FPT_logo_2010.svg/1200px-FPT_logo_2010.svg.png" alt="Data Science Essentials" class="logo">
+                    <div class="course-info">
+                        <p class="learning-paths">Learning Paths</p>
+                        <h3>Induction Training for BO_IT_Mandatory (VI)</h3>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: 50%;"></div>
+                    <span class="progress-text">2 of 4 items complete</span>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function showTab(tab) {
+            // Hide all tab contents
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(t => t.style.display = 'none');
+
+            // Remove active class from all tabs
+            const tabItems = document.querySelectorAll('.learning-tabs li');
+            tabItems.forEach(item => item.classList.remove('active'));
+
+            // Show the selected tab
+            document.getElementById(tab).style.display = 'block';
+
+            // Add active class to the selected tab
+            const activeTab = document.querySelector(`.learning-tabs li[onclick="showTab('${tab}')"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+        }
+    </script>
 </body>
 </html>
