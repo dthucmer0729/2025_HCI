@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Learning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        .section {
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgb(0, 0, 0);
+            position: relative;
+        }
+
+        #my-learning {
+            background-color: #0088ff;
+            color: rgb(255, 255, 255);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            cursor: pointer;
+            font-size: 30px;
+            color: rgb(255, 255, 255);
+            font-weight: bold;
+            transform: translateY(-50%);
+        }
+
+        .cards-section {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgb(0, 0, 0);
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap; /* Cho phép các thẻ xuống hàng */
+            margin-top: 20px; /* Khoảng cách giữa tiêu đề và thẻ */
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            flex: 0 1 calc(33.333% - 60px);
+            margin: 25px; /* Khoảng cách giữa các thẻ */
+            text-align: center; /* Căn giữa nội dung */
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .card img {
+            width: 15%; /* Đặt kích thước hình ảnh */
+            height: auto; /* Để chiều cao tự động */
+            margin-bottom: 10px; /* Khoảng cách giữa hình ảnh và nội dung bên dưới */
+            display: block; /* Đảm bảo hình ảnh là block để có thể căn giữa */
+            margin-left: auto; /* Căn giữa */
+            margin-right: auto; /* Căn giữa */
+        }
+
+        .highlight {
+            display: inline-block;
+            background-color: #505050;
+            color: #ffffff; /* Màu chữ trắng */
+            padding: 5px 10px; /* Khoảng cách bên trong */
+            border-radius: 5px; /* Bo góc */
+            font-weight: bold; /* Chữ đậm */
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 5px; /* Bo góc */
+            font-weight: bold; /* Chữ đậm */
+            margin: 20px 0; /* Khoảng cách giữa các nút và nội dung bên trên */
+        }
+
+        .continue-btn {
+            background-color: #0088ff; /* Màu xanh dương */
+            color: #ffffff; /* Chữ trắng */
+        }
+
+        .guide-btn {
+            background-color: #ffffff; /* Màu trắng */
+            color: #505050; /* Chữ xám đậm */
+            border: 1px solid #505050; /* Đường viền xám đậm */
+        }
+    </style>
+</head>
+<body>
+    <div class="section" id="my-learning">
+        <span class="close-btn" onclick="closeSection()">×</span>
+        <h3>New unit test custom challenge</h3>
+    </div>
+
+    <div class="cards-section">
+        <div class="cards">
+            <div class="card">
+                <img src="https://mochajs.org/images/mocha-logo.svg" alt="JavaScript">
+                <h4>JavaScript <span class="highlight">Mocha</span></h4>
+                <p>Use the Mocha testing framework and create unit tests to grade solutions.</p>
+                <div class="button continue-btn" data-content="JavaScript Mocha content goes here.">Continue</div>
+                <div class="button guide-btn">Guide</div>
+            </div>
+            <div class="card">
+                <img src="https://ypcode.wordpress.com/wp-content/uploads/2017/08/typescript_logo_new.png?w=192" alt="TypeScript">
+                <h4>TypeScript <span class="highlight">Mocha</span></h4>
+                <p>Use the Mocha testing framework and create unit tests to grade solutions.</p>
+                <div class="button continue-btn" data-content="TypeScript Mocha content goes here.">Continue</div>
+                <div class="button guide-btn">Guide</div>
+            </div>
+            <div class="card">
+                <img src="https://static-00.iconduck.com/assets.00/python-icon-2048x2048-71qg26pq.png" alt="Python">
+                <h4>Python <span class="highlight">pytest</span></h4>
+                <p>pytest is the most popular and fully-featured Python testing framework.</p>
+                <div class="button continue-btn" data-content="Python pytest content goes here.">Continue</div>
+                <div class="button guide-btn">Guide</div>
+            </div>
+            <div class="card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMY6B_fyKDYAZQVYMlb6R4jpw3ZBPvA8sztA&s" alt="PHP">
+                <h4>PHP <span class="highlight">PHPUnit</span></h4>
+                <p>PHPUnit is a programmer-oriented testing framework for PHP.</p>
+                <div class="button continue-btn" data-content="PHP PHPUnit content goes here.">Continue</div>
+                <div class="button guide-btn">Guide</div>
+            </div>
+            <div class="card">
+                <img src="https://static-00.iconduck.com/assets.00/java-icon-2048x2048-3pfathb3.png" alt="Java">
+                <h4>Java <span class="highlight">JUnit</span></h4>
+                <p>JUnit is a popular unit-testing framework in the Java ecosystem.</p>
+                <div class="button continue-btn" data-content="Java JUnit content goes here.">Continue</div>
+                <div class="button guide-btn">Guide</div>
+            </div>
+            <div class="card">
+                <img src="https://static-00.iconduck.com/assets.00/kotlin-original-icon-2048x2048-4hwzq2of.png" alt="Kotlin">
+                <h4>Kotlin <span class="highlight">JUnit</span></h4>
+                <p>JUnit is a popular unit-testing framework in the Kotlin ecosystem.</p>
+                <div class="button continue-btn" data-content="Kotlin JUnit content goes here.">Continue</div>
+                <div class="button guide-btn">Guide</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closeSection() {
+            document.getElementById('my-learning').style.display = 'none';
+        }
+
+        const continueButtons = document.querySelectorAll('.continue-btn');
+        continueButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.getAttribute('data-content');
+                document.getElementById('section-content').innerText = content;
+            });
+        });
+    </script>
+</body>
+</html>
