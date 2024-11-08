@@ -46,8 +46,8 @@
 
         .cards {
             display: flex;
-            flex-wrap: wrap; /* Cho phép các thẻ xuống hàng */
-            margin-top: 20px; /* Khoảng cách giữa tiêu đề và thẻ */
+            flex-wrap: wrap;
+            margin-top: 20px;
         }
 
         .card {
@@ -56,48 +56,226 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             padding: 15px;
             flex: 0 1 calc(33.333% - 60px);
-            margin: 25px; /* Khoảng cách giữa các thẻ */
-            text-align: center; /* Căn giữa nội dung */
+            margin: 25px;
+            text-align: center;
             position: relative;
             box-sizing: border-box;
         }
 
         .card img {
-            width: 15%; /* Đặt kích thước hình ảnh */
-            height: auto; /* Để chiều cao tự động */
-            margin-bottom: 10px; /* Khoảng cách giữa hình ảnh và nội dung bên dưới */
-            display: block; /* Đảm bảo hình ảnh là block để có thể căn giữa */
-            margin-left: auto; /* Căn giữa */
-            margin-right: auto; /* Căn giữa */
+            width: 15%;
+            height: auto;
+            margin-bottom: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .highlight {
             display: inline-block;
             background-color: #505050;
-            color: #ffffff; /* Màu chữ trắng */
-            padding: 5px 10px; /* Khoảng cách bên trong */
-            border-radius: 5px; /* Bo góc */
-            font-weight: bold; /* Chữ đậm */
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
         }
 
         .button {
             display: inline-block;
             padding: 10px 15px;
-            border-radius: 5px; /* Bo góc */
-            font-weight: bold; /* Chữ đậm */
-            margin: 20px 0; /* Khoảng cách giữa các nút và nội dung bên trên */
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px 0;
         }
 
         .continue-btn {
-            background-color: #0088ff; /* Màu xanh dương */
-            color: #ffffff; /* Chữ trắng */
+            background-color: #0088ff;
+            color: #ffffff;
         }
 
         .guide-btn {
-            background-color: #ffffff; /* Màu trắng */
-            color: #505050; /* Chữ xám đậm */
-            border: 1px solid #505050; /* Đường viền xám đậm */
+            background-color: #ffffff;
+            color: #505050;
+            border: 1px solid #505050;
         }
+
+        .content-box {
+            background-color: #505050;
+            color: white;
+            text-align: center;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .content-box p {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        #learning-content {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e0f7fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgb(0, 0, 0);
+            display: none;
+            position: relative;
+        }
+
+        .section-content {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .rectangular-box {
+            background-color: #ffffff;
+            border: 1px solid #b0b0b0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .rectangular-box h4 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .difficulty-section, .description-section {
+            margin-top: 10px;
+        }
+
+        .difficulty-section select,
+        .description-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .difficulty-section select {
+            width: auto;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .description-section textarea {
+            height: 30px;
+        }
+
+        .final-content-box {
+            background-color: #505050;
+            color: white;
+            text-align: center;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .final-content-box p {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .textarea-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .textarea-section textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .input-type,
+        .output-type {
+            background-color: #f1f1f1;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .test-case-input,
+        .test-case-output {
+            width: 80%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .test-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .update-container {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .update-section {
+            display: none;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-color: #0088ff;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+        }
+
+
+        .update-box {
+            margin: 0;
+        }
+
+        .update-box p {
+            margin: 0;
+        }
+
+        .form-group {
+            padding-bottom: 70px;
+        }
+
     </style>
 </head>
 <body>
@@ -106,52 +284,104 @@
         <h3>New unit test custom challenge</h3>
     </div>
 
-    <div class="cards-section">
+    <div class="cards-section" id="cards-section">
         <div class="cards">
             <div class="card">
                 <img src="https://mochajs.org/images/mocha-logo.svg" alt="JavaScript">
                 <h4>JavaScript <span class="highlight">Mocha</span></h4>
                 <p>Use the Mocha testing framework and create unit tests to grade solutions.</p>
-                <div class="button continue-btn" data-content="JavaScript Mocha content goes here.">Continue</div>
+                <div class="button continue-btn" data-content="Click here to open the JavaScript(Mocha) and edit your code→.">Continue</div>
                 <div class="button guide-btn">Guide</div>
             </div>
             <div class="card">
                 <img src="https://ypcode.wordpress.com/wp-content/uploads/2017/08/typescript_logo_new.png?w=192" alt="TypeScript">
                 <h4>TypeScript <span class="highlight">Mocha</span></h4>
                 <p>Use the Mocha testing framework and create unit tests to grade solutions.</p>
-                <div class="button continue-btn" data-content="TypeScript Mocha content goes here.">Continue</div>
+                <div class="button continue-btn" data-content="Click here to open the TypeScript(Mocha) and edit your code→.">Continue</div>
                 <div class="button guide-btn">Guide</div>
             </div>
             <div class="card">
                 <img src="https://static-00.iconduck.com/assets.00/python-icon-2048x2048-71qg26pq.png" alt="Python">
                 <h4>Python <span class="highlight">pytest</span></h4>
                 <p>pytest is the most popular and fully-featured Python testing framework.</p>
-                <div class="button continue-btn" data-content="Python pytest content goes here.">Continue</div>
+                <div class="button continue-btn" data-content="Click here to open the Python(pytest) and edit your code→.">Continue</div>
                 <div class="button guide-btn">Guide</div>
             </div>
             <div class="card">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMY6B_fyKDYAZQVYMlb6R4jpw3ZBPvA8sztA&s" alt="PHP">
                 <h4>PHP <span class="highlight">PHPUnit</span></h4>
                 <p>PHPUnit is a programmer-oriented testing framework for PHP.</p>
-                <div class="button continue-btn" data-content="PHP PHPUnit content goes here.">Continue</div>
+                <div class="button continue-btn" data-content="Click here to open the PHP(PHPUnit) and edit your code→.">Continue</div>
                 <div class="button guide-btn">Guide</div>
             </div>
             <div class="card">
                 <img src="https://static-00.iconduck.com/assets.00/java-icon-2048x2048-3pfathb3.png" alt="Java">
                 <h4>Java <span class="highlight">JUnit</span></h4>
                 <p>JUnit is a popular unit-testing framework in the Java ecosystem.</p>
-                <div class="button continue-btn" data-content="Java JUnit content goes here.">Continue</div>
+                <div class="button continue-btn" data-content="Click here to open the Java(JUnit)IDE and edit your code→.">Continue</div>
                 <div class="button guide-btn">Guide</div>
             </div>
             <div class="card">
                 <img src="https://static-00.iconduck.com/assets.00/kotlin-original-icon-2048x2048-4hwzq2of.png" alt="Kotlin">
                 <h4>Kotlin <span class="highlight">JUnit</span></h4>
                 <p>JUnit is a popular unit-testing framework in the Kotlin ecosystem.</p>
-                <div class="button continue-btn" data-content="Kotlin JUnit content goes here.">Continue</div>
+                <div class="button continue-btn" data-content="Click here to open the Kotlin(JUnit) and edit your code→.">Continue</div>
                 <div class="button guide-btn">Guide</div>
             </div>
         </div>
     </div>
+
+    <div id="learning-content">
+        <div class="rectangular-box">
+            <h4>Demo</h4>
+        </div>
+        <div class="rectangular-box">
+            <div class="difficulty-section">
+                <h4>Difficulty</h4>
+                <select>
+                    <option value="easy">Easy</option>
+                    <option value="normal">Normal</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+            <div class="description-section">
+                <h4>Short description</h4>
+                <textarea placeholder="Optional short description about this challenge..."></textarea>
+            </div>
+        </div>
+
+        <div class="textarea-section" id="textarea-section">
+            <textarea placeholder="Edit your code"></textarea>
+        </div>
+
+        <div class="final-content-box" onclick="toggleTextarea()">
+            <p id="final-content-text">This content will change based on which "Continue" is clicked.</p>
+        </div>
+
+        <div class="test-section" id="test-section">
+            <div class="form-group">
+                <div class="input-type">Input type: Array of integers</div>
+                <div class="output-type">Output type: Integer</div>
+            </div>
+    
+            <div class="form-group">
+                <label>Required test cases</label>
+                <div class="test-case-container">
+                    <input type="text" class="test-case-input" placeholder="Test case input (e.g., 12, 31, 25, 17)">
+                    <input type="text" class="test-case-output" placeholder="Expected output">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="update-container">
+        <div class="update-section">
+            <div class="update-box">
+                <p>Update custom challenge</p>
+            </div>
+        </div>
+    </div>
+    
 
     <script>
         function closeSection() {
@@ -162,9 +392,43 @@
         continueButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const content = button.getAttribute('data-content');
-                document.getElementById('section-content').innerText = content;
+                
+                document.getElementById('cards-section').style.display = 'none';
+
+                document.getElementById('learning-content').style.display = 'block';
+
+                const finalContentBox = document.querySelector('.final-content-box p');
+                finalContentBox.innerText = content;
             });
         });
+
+        function toggleTextarea() {
+            const textareaSection = document.getElementById('textarea-section');
+            const testSection = document.getElementById('test-section');
+
+            if (textareaSection.style.display === 'none' || textareaSection.style.display === '') {
+                textareaSection.style.display = 'block';
+                testSection.style.display = 'block';
+            } else {
+                textareaSection.style.display = 'none';
+                testSection.style.display = 'none';
+            };
+        };
+        function toggleUpdateSection() {
+            const updateContainer = document.querySelector('.update-container');
+            const updateSection = document.querySelector('.update-section');
+
+            if (updateContainer.style.display === 'none' || updateContainer.style.display === '') {
+                updateContainer.style.display = 'block';
+                updateSection.style.display = 'block';
+            } else {
+                updateContainer.style.display = 'none';
+                updateSection.style.display = 'none';
+            }
+        }
+
+        document.querySelector('.final-content-box').addEventListener('click', toggleUpdateSection);
+
     </script>
 </body>
 </html>
